@@ -1,32 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  addPostAction,
+  updatePostAction,
+  removePostAction,
+  addTitleAction,
+  updateTitleAction,
+  removeTitleAction,
+  addCommentAction,
+  removeCommentAction,
+} from './actions/actions';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import AddPost from './AddPost';
 import UpdatePost from './UpdatePost';
-import Post from './Post';
+import PostPage from './PostPage';
 
 const Routes = () => {
-  const [posts, setPosts] = useState([]);
-  const [titles, setTitles] = useState([]);
+  const posts = useSelector((state) => state.posts);
+  const titles = useSelector((state) => state.titles);
+
+  const dispatch = useDispatch();
 
   const addPost = (post) => {
-    setPosts((p) => [...p, { ...post }]);
+    dispatch(addPostAction(post));
   };
 
   const addTitle = (title) => {
-    setTitles((t) => [...t, { ...title }]);
+    dispatch(addTitleAction(title));
   };
 
   const updatePost = (posts) => {
-    setPosts(posts);
+    dispatch(updatePostAction(posts));
   };
   const updateTitle = (titles) => {
-    setTitles(titles);
+    dispatch(updateTitleAction(titles));
   };
 
   const deletePost = (id) => {
-    setPosts([...posts.filter((p) => p.id !== id)]);
-    setTitles([...titles.filter((t) => t.id !== id)]);
+    dispatch(removePostAction(id));
+    dispatch(removeTitleAction(id));
+  };
+
+  const addComment = (id, comment) => {
+    dispatch(addCommentAction(id, comment));
+  };
+
+  const deleteComment = (id, comment) => {
+    dispatch(removeCommentAction(id, comment));
   };
 
   return (
@@ -38,7 +59,12 @@ const Routes = () => {
         <AddPost addPost={addPost} addTitle={addTitle} />
       </Route>
       <Route exact path='/posts/:id'>
-        <Post posts={posts} deletePost={deletePost} />
+        <PostPage
+          posts={posts}
+          deletePost={deletePost}
+          addComment={addComment}
+          deleteComment={deleteComment}
+        />
       </Route>
       <Route exact path='/posts/:id/update'>
         <UpdatePost

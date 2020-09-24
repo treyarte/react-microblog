@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Title = ({ title }) => {
+const Title = ({ title, id }) => {
+  console.log(title);
   return (
     <div className='title'>
-      <Link to={`/posts/${title.id}`}>
+      <Link to={`/posts/${id}`}>
         <h4>{title.title}</h4>
       </Link>
       <p>{title.description}</p>

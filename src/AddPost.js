@@ -5,8 +5,10 @@ import PostForm from './PostForm';
 const AddPost = ({ addPost, addTitle }) => {
   const createPost = (formData) => {
     const id = uuid();
-    addPost({ ...formData, id });
-    addTitle({ title: formData.title, description: formData.description, id });
+    addPost({ [id]: { ...formData, comments: [] } });
+    addTitle({
+      [id]: { title: formData.title, description: formData.description },
+    });
   };
 
   return (
