@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import {
   addPostAction,
   updatePostAction,
@@ -9,6 +9,11 @@ import {
   removeTitleAction,
   addCommentAction,
   removeCommentAction,
+  getTitlesFromAPI,
+  startLoad,
+  AddPostToAPI,
+  updatePostToAPI,
+  deletePostFromAPI,
 } from './actions/actions';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import HomePage from './HomePage';
@@ -17,28 +22,32 @@ import UpdatePost from './UpdatePost';
 import PostPage from './PostPage';
 
 const Routes = () => {
-  const posts = useSelector((state) => state.posts);
-  const titles = useSelector((state) => state.titles);
+  let dispatch = useDispatch();
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTitlesFromAPI());
+  }, [dispatch]);
+
+  const posts = useSelector((state) => state.posts, shallowEqual);
+  const titles = useSelector((state) => state.titles, shallowEqual);
 
   const addPost = (post) => {
-    dispatch(addPostAction(post));
+    dispatch(AddPostToAPI(post));
   };
 
   const addTitle = (title) => {
     dispatch(addTitleAction(title));
   };
 
-  const updatePost = (posts) => {
-    dispatch(updatePostAction(posts));
+  const updatePost = (id, data) => {
+    dispatch(updatePostToAPI(id, data));
   };
   const updateTitle = (titles) => {
     dispatch(updateTitleAction(titles));
   };
 
   const deletePost = (id) => {
-    dispatch(removePostAction(id));
+    dispatch(deletePostFromAPI(id));
     dispatch(removeTitleAction(id));
   };
 

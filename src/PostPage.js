@@ -1,34 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
+import { getPostFromAPI, startLoad } from './actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import Post from './Post';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 
-const PostPage = ({
-  posts: { posts },
-  deletePost,
-  addComment,
-  deleteComment,
-}) => {
+const PostPage = ({ deletePost, addComment, deleteComment }) => {
+  const dispatch = useDispatch();
   const { id } = useParams();
 
-  const post = posts[id];
-  if (!post) return <Redirect to='/' />;
+  useEffect(() => {
+    dispatch(getPostFromAPI(id));
+  }, [dispatch, id]);
 
-  const postComments = post.comments || [];
-  console.log(postComments);
+  const { posts } = useSelector((state) => state.posts);
+
+  const post = posts[id];
+  // if (!post) return <Redirect to='/' />;
+
   return (
     <div className='post-page container'>
-      <Post id={id} post={post} deletePost={deletePost} />
-      {postComments.map((comment) => (
-        <Comment
-          key={comment.id}
-          comment={comment}
+      {post ? (
+        <Post
+          id={id}
+          post={post}
+          deletePost={deletePost}
           deleteComment={deleteComment}
-          postId={id}
+          addComment={addComment}
         />
-      ))}
-      <CommentForm addComment={addComment} post_id={id} />
+      ) : (
+        <p>Post not found</p>
+      )}
     </div>
   );
 };

@@ -16,9 +16,8 @@ const UpdatePost = ({
     posts[id].description = formData.description;
     titles[id].description = formData.description;
     posts[id].body = formData.body;
-    titles[id].body = formData.body;
 
-    updatePost(posts);
+    updatePost(id, formData);
     updateTitle(titles);
   };
 

@@ -1,15 +1,30 @@
-import { ADD_TITLE, REMOVE_TITLE, UPDATE_TITLE } from '../actions/actionTypes';
+import {
+  ADD_TITLE,
+  REMOVE_TITLE,
+  UPDATE_TITLE,
+  FETCH_TITLES,
+} from '../actions/actionTypes';
 const INITIAL_STATE = {
   titles: {},
 };
 
 const titleReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case FETCH_TITLES:
+      return { titles: { ...state.titles, ...action.titles } };
+
     case ADD_TITLE:
+      const title = {
+        [action.title.id]: {
+          title: action.title.title,
+          description: action.title.description,
+          vote: action.title.vote,
+        },
+      };
       return {
         titles: {
           ...state.titles,
-          ...action.title,
+          ...title,
         },
       };
     case UPDATE_TITLE:

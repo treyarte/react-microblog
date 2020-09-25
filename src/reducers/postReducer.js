@@ -4,6 +4,7 @@ import {
   UPDATE_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  FETCH_POST,
 } from '../actions/actionTypes';
 const INITIAL_STATE = {
   posts: {},
@@ -11,6 +12,9 @@ const INITIAL_STATE = {
 
 const postReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case FETCH_POST:
+      return { posts: { ...state.posts, ...action.post } };
+
     case ADD_POST:
       action.post.comments = [];
       return {
