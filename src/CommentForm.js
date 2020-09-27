@@ -27,7 +27,7 @@ const CommentForm = ({ addComment, post_id }) => {
       <FormGroup>
         <Label htmlFor='text'>Comment</Label>
         <Input
-          type='text'
+          type='textarea'
           id='text'
           name='text'
           value={formData.text}

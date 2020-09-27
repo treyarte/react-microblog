@@ -2,10 +2,16 @@ import React from 'react';
 
 const Comment = ({ comment, deleteComment, postId }) => {
   return (
-    <div>
-      <p>{comment.text}</p>
-      <button onClick={() => deleteComment(postId, comment)}>X</button>
-    </div>
+    <li>
+      <p className='comment'>
+        {comment.text}
+
+        <span
+          class='fas fa-window-close ml-3 text-danger'
+          onClick={() => deleteComment(postId, comment)}
+        ></span>
+      </p>
+    </li>
   );
 };
 

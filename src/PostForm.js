@@ -34,6 +34,7 @@ const PostForm = ({ submitAction, initState }) => {
 
   return (
     <div className='container'>
+      <h2>New Post</h2>
       <Form className='row  text-left' onSubmit={handleSubmit}>
         <FormGroup className='col-md-12'>
           <Label htmlFor='title'>Title:</Label>

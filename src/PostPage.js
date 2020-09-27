@@ -20,7 +20,7 @@ const PostPage = ({ deletePost, addComment, deleteComment, votePost }) => {
   // if (!post) return <Redirect to='/' />;
 
   return (
-    <div className='post-page container'>
+    <div className='post-page'>
       {post ? (
         <Post
           id={id}

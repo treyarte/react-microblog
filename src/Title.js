@@ -1,5 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardText,
+} from 'reactstrap';
+import './Title.css';
 
 const Title = ({ title, id, voteTitle }) => {
   const handleVote = (e) => {
@@ -9,25 +18,36 @@ const Title = ({ title, id, voteTitle }) => {
   };
 
   return (
-    <div className='title'>
-      <Link to={`/posts/${id}`}>
-        <h4>{title.title}</h4>
-      </Link>
-      <p>{title.description}</p>
-      <div>
-        <span
-          onClick={handleVote}
-          name='up'
-          className='far fa-thumbs-up mr-5'
-        ></span>
-        <span>{title.votes}</span>
-        <span
-          onClick={handleVote}
-          name='down'
-          className='far fa-thumbs-down'
-        ></span>
-      </div>
-    </div>
+    <Card className='title'>
+      <CardBody>
+        <Link to={`/posts/${id}`}>
+          <h4>{title.title}</h4>
+        </Link>
+
+        <p className='float-left'>{title.description}</p>
+      </CardBody>
+      <CardFooter>
+        <div className='row'>
+          <div className='col-md-4'>
+            <span
+              onClick={handleVote}
+              name='up'
+              className='far fa-thumbs-up text-primary'
+            ></span>
+          </div>
+          <div className='col-md-4'>
+            <span>{title.votes}</span>
+          </div>
+          <div className='col-md-4'>
+            <span
+              onClick={handleVote}
+              name='down'
+              className='far fa-thumbs-down text-danger'
+            ></span>
+          </div>
+        </div>
+      </CardFooter>
+    </Card>
   );
 };
 

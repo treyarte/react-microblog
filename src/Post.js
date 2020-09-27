@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
+import './Post.css';
 
 const Post = ({
   id,
@@ -27,42 +28,59 @@ const Post = ({
 
   return (
     <>
-      <div className='post'>
-        <h4>{post.title}</h4>
-        <div className='description'>
-          <span>{post.description}</span>
-          <div>
-            <span
-              onClick={handleVote}
-              name='up'
-              className='far fa-thumbs-up mr-5'
-            ></span>
-            <span>{post.votes}</span>
-            <span
-              onClick={handleVote}
-              name='down'
-              className='far fa-thumbs-down'
-            ></span>
-          </div>
+      <div className='post row text-left'>
+        <div className='col-md-12 '>
+          <h4>{post.title}</h4>
 
-          <Link to={`/posts/${id}/update`}>Update</Link>
-          <Button onClick={handlePostDelete} color='danger'>
-            Delete
-          </Button>
+          <span className='votes'>Votes: {post.votes}</span>
+          <span
+            onClick={handleVote}
+            name='up'
+            className='far fa-thumbs-up text-primary mr-2'
+          ></span>
+          <span
+            onClick={handleVote}
+            name='down'
+            className='far fa-thumbs-down text-danger'
+          ></span>
         </div>
-        <p>{post.body}</p>
-      </div>
-      {post.comments !== undefined &&
-        post.comments.map((comment) => (
-          <Comment
-            key={comment.id}
-            comment={comment}
-            deleteComment={deleteComment}
-            postId={id}
-          />
-        ))}
 
-      <CommentForm addComment={addComment} post_id={id} />
+        <div className='col-md-12 '>
+          <p>{post.description}</p>
+
+          <Link
+            to={`/posts/${id}/update`}
+            className='far fa-edit text-info mr-3'
+          ></Link>
+          <span
+            onClick={handlePostDelete}
+            className='far fa-trash-alt text-danger'
+          ></span>
+        </div>
+        <div className='col-md-12'>
+          <p>{post.body}</p>
+        </div>
+      </div>
+      <hr />
+      <div className='comments row text-left'>
+        <div className='col-md-12'>
+          <h4>Comments</h4>
+          <ul>
+            {post.comments !== undefined &&
+              post.comments.map((comment) => (
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  deleteComment={deleteComment}
+                  postId={id}
+                />
+              ))}
+          </ul>
+        </div>
+        <div className='col-md-12'>
+          <CommentForm addComment={addComment} post_id={id} />
+        </div>
+      </div>
     </>
   );
 };

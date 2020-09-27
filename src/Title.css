@@ -1,0 +1,12 @@
+.title {
+  margin: 1rem;
+}
+
+.fa-thumbs-up:hover,
+.fa-thumbs-down:hover {
+  cursor: pointer;
+}
+
+.card-body a:hover {
+  text-decoration: none;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import Title from './Title';
+import './Titles.css';
 const Titles = ({ titles: { titles }, voteTitle }) => {
   return (
     <div className='titles-container'>
