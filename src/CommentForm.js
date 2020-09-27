@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { v4 as uuid } from 'uuid';
+
 import { Form, Button, Input, FormGroup, Label } from 'reactstrap';
 
 const CommentForm = ({ addComment, post_id }) => {
@@ -18,7 +18,7 @@ const CommentForm = ({ addComment, post_id }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addComment(post_id, { ...formData, id: uuid() });
+    addComment({ ...formData }, post_id);
     setFormData(INITIAL_STATE);
   };
 

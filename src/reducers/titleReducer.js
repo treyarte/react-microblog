@@ -3,6 +3,7 @@ import {
   REMOVE_TITLE,
   UPDATE_TITLE,
   FETCH_TITLES,
+  VOTE_TITLE,
 } from '../actions/actionTypes';
 const INITIAL_STATE = {
   titles: {},
@@ -41,6 +42,19 @@ const titleReducer = (state = INITIAL_STATE, action) => {
           ...state.titles,
         },
       };
+
+    case VOTE_TITLE: {
+      const { id, direction } = action.vote;
+      const titles = state.titles;
+
+      titles[id].votes += direction === 'up' ? +1 : -1;
+
+      return {
+        titles: {
+          ...titles,
+        },
+      };
+    }
     default:
       return state;
   }

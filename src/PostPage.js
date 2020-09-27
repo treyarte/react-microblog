@@ -6,7 +6,7 @@ import Post from './Post';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 
-const PostPage = ({ deletePost, addComment, deleteComment }) => {
+const PostPage = ({ deletePost, addComment, deleteComment, votePost }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -28,6 +28,7 @@ const PostPage = ({ deletePost, addComment, deleteComment }) => {
           deletePost={deletePost}
           deleteComment={deleteComment}
           addComment={addComment}
+          votePost={votePost}
         />
       ) : (
         <p>Post not found</p>

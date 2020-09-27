@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import {
-  addPostAction,
-  updatePostAction,
-  removePostAction,
   addTitleAction,
   updateTitleAction,
   removeTitleAction,
   addCommentAction,
   removeCommentAction,
   getTitlesFromAPI,
-  startLoad,
   AddPostToAPI,
   updatePostToAPI,
   deletePostFromAPI,
+  AddCommentToAPI,
+  deleteCommentFromAPI,
+  voteToAPI,
+  voteToAPITitles,
 } from './actions/actions';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import HomePage from './HomePage';
@@ -51,18 +51,26 @@ const Routes = () => {
     dispatch(removeTitleAction(id));
   };
 
-  const addComment = (id, comment) => {
-    dispatch(addCommentAction(id, comment));
+  const addComment = (comment, id) => {
+    dispatch(AddCommentToAPI(comment, id));
   };
 
   const deleteComment = (id, comment) => {
-    dispatch(removeCommentAction(id, comment));
+    dispatch(deleteCommentFromAPI(id, comment));
+  };
+
+  const votePost = (id, direction) => {
+    dispatch(voteToAPI(id, direction));
+  };
+
+  const voteTitle = (id, direction) => {
+    dispatch(voteToAPITitles(id, direction));
   };
 
   return (
     <Switch>
       <Route exact path='/'>
-        <HomePage titles={titles} />
+        <HomePage titles={titles} voteTitle={voteTitle} />
       </Route>
       <Route exact path='/new'>
         <AddPost addPost={addPost} addTitle={addTitle} />
@@ -73,6 +81,7 @@ const Routes = () => {
           deletePost={deletePost}
           addComment={addComment}
           deleteComment={deleteComment}
+          votePost={votePost}
         />
       </Route>
       <Route exact path='/posts/:id/update'>

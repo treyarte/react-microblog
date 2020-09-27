@@ -5,6 +5,7 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   FETCH_POST,
+  VOTE_POST,
 } from '../actions/actionTypes';
 const INITIAL_STATE = {
   posts: {},
@@ -51,13 +52,24 @@ const postReducer = (state = INITIAL_STATE, action) => {
 
     case REMOVE_COMMENT: {
       const post_id = action.post_comment.post_id;
-      console.log(post_id);
+
       const remove_comment = action.post_comment.comment;
       const posts = state.posts;
 
       posts[post_id].comments = [
         ...posts[post_id].comments.filter((c) => c.id !== remove_comment.id),
       ];
+
+      return {
+        posts,
+      };
+    }
+
+    case VOTE_POST: {
+      const { id, direction } = action.vote;
+      const posts = state.posts;
+
+      posts[id].votes += direction === 'up' ? +1 : -1;
 
       return {
         posts,

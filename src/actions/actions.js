@@ -10,6 +10,8 @@ import {
   REMOVE_COMMENT,
   FETCH_TITLES,
   FETCH_POST,
+  VOTE_POST,
+  VOTE_TITLE,
 } from './actionTypes';
 
 import { IS_LOADING, NOT_LOADING } from './loadingTypes';
@@ -83,8 +85,57 @@ const deletePostFromAPI = (id) => {
   return async function (dispatch) {
     try {
       let res = await axios.delete(BASE_URL + `posts/${id}`);
-      console.log(res.data);
+
       dispatch(removePostAction(id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const AddCommentToAPI = (text, post_id) => {
+  return async function (dispatch) {
+    try {
+      let res = await axios.post(BASE_URL + `posts/${post_id}/comments`, text);
+      dispatch(addCommentAction(post_id, res.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const deleteCommentFromAPI = (id, comment) => {
+  return async function (dispatch) {
+    try {
+      let res = await axios.delete(
+        BASE_URL + `posts/${id}/comments/${comment.id}`
+      );
+      dispatch(removeCommentAction(id, comment));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const voteToAPI = (id, direction) => {
+  return async function (dispatch) {
+    try {
+      let res = await axios.post(BASE_URL + `posts/${id}/vote/${direction}`);
+
+      dispatch(votePost(id, direction));
+      dispatch(voteTitle(id, direction));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const voteToAPITitles = (id, direction) => {
+  return async function (dispatch) {
+    try {
+      let res = await axios.post(BASE_URL + `posts/${id}/vote/${direction}`);
+
+      dispatch(voteTitle(id, direction));
     } catch (error) {
       console.log(error);
     }
@@ -113,6 +164,16 @@ const removeCommentAction = (id, comment) => ({
   },
 });
 
+const votePost = (id, direction) => ({
+  type: VOTE_POST,
+  vote: { id, direction },
+});
+
+const voteTitle = (id, direction) => ({
+  type: VOTE_TITLE,
+  vote: { id, direction },
+});
+
 export {
   addPostAction,
   removePostAction,
@@ -127,4 +188,8 @@ export {
   AddPostToAPI,
   updatePostToAPI,
   deletePostFromAPI,
+  AddCommentToAPI,
+  deleteCommentFromAPI,
+  voteToAPI,
+  voteToAPITitles,
 };
